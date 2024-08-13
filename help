@@ -1,0 +1,54 @@
+iniciar o projeto               - yarn init -y
+instalando o typescript         - yarn add typescript -D
+instalando express              - yarn add express
+install dependencias express    - yarn add @types/express -D
+inicializando typescript        - yarn tsc --init
+instalando ts-node-dev          - yarn add ts-node-dev -D
+adicionar o script 'ts-node-dev src/server.ts' em "scripts":{} no arquivo package.json
+instalando express-async-errors - yarn add express-async-errors
+instalando o cors - libera acesso a outros ips - yarn add cors / yarn add @types/cors -D
+
+Instalação do postgres
+----------------------
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql
+
+Verificar via terminal se o serviço do postgresql está rodando: sudo systemctl status postgresql.service
+Criar a senha: 
+entrar no serviço via terminal: sudo -u postgres psql
+alterando a senha: alter user postgres password '123456';
+\q para sair
+psql --version: para ver versão instalada
+
+Utilzar o postgres na linha de comando: psql -h localhost -U postgres
+\l ver databases
+\q para voltar  e novamente para fechar 
+
+referencia: https://www.youtube.com/watch?v=cdhpmaa4YJE
+
+
+Instalando postbird 
+-------------------
+sudo snap install postbird
+Obs: o snap deve estar habilitado. Caso não esteja utilar os comandos abaixo:
+sudo apt-get update 
+sudo apt install snap
+
+utilizar o usuário: 'postgres' e a senha definida após a etapa de instalação. No caso '123456'
+
+Instalando o prisma: yarn add prisma 
+Instalando o prisma client : yarn add @prisma/client
+Inicializando o prisma no projeto: npx prisma init
+    obs: Alterar no arquivo .env a url de conexão com o banco(usuario, senha e database)
+         dentro de src criar a pasta prisma e o arquivo index.ts e incluir as linha abaixo:
+            import { PrismaClient } from '@prisma/client'; 
+            const prismaClient = new PrismaClient(); 
+            export default prismaClient;
+
+Instalando bcryptjs: yarn add bcryptjs / yarn add @types/bcryptjs -D
+Instalando jsonwebtoken: yarn add jsonwebtoken / yarn add @types/jsonwebtoken -D
+Instalando dotenv: yarn add dotenv / yarn add @types/dotenv -D
+Instalando multer: yarn add multer / yarn add @types/multer -D
+Instalando fs: yarn add fs

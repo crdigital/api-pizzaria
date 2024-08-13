@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// criar uma migration(gera a tabela no database)
+// yarn prisma migrate dev
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  access_level String
+  
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("users")  
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("categories")
+  // relação com Product
+  products Product[]
+}
+
+model Product {
+  id String @id @default(uuid())
+  name String
+  price String
+  description String
+  banner String
+  
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  
+  // relacão com Category
+  category Category @relation(fields: [category_id], references: [id])
+
+  @@map("products")
+
+  // campo referência da relação com Category
+  category_id String
+  // relação com Item
+  items Item[]
+}
+
+model Order {
+  id String @id @default(uuid())
+  table Int
+  status Boolean @default(false)
+  draft Boolean @default(true)
+  name_client String?
+  time String
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("orders")
+  items Item[]
+}
+
+model Item {
+  id String @id @default(uuid())
+  amount Int
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())  
+
+  order Order @relation(fields: [order_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@map("items")
+  order_id String
+  product_id String
+}
+
+model Client {
+  id String @id @default(uuid())
+  name String
+  phone String?
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now()) 
+  
+  @@map("clients") 
+  addresses Address[]
+
+}
+
+model Address {
+  id String @id @default(uuid())
+  street String
+  number String
+  neighborhood String
+  city String
+  state String 
+  complement String?
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  client Client @relation(fields: [client_id], references: [id])
+
+  @@map("addresses") 
+  client_id String
+}
